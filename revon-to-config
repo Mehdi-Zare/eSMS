@@ -1,0 +1,9 @@
+#!/bin/bash 
+
+# This script is written by Mehdi Zare and it converts REVCON to CONFIG; it need head.CONFIG and REVCON as inputs
+
+dlpoly-extract-config-coordinates -f REVCON -k 0 -p > CONFIG
+dlpoly-relocate-config-coordinates -f CONFIG > ali; mv ali CONFIG
+sed -i '1,5d' CONFIG ; cat head*.CONFIG CONFIG > ali ; mv ali CONFIG
+rm REVCON
+

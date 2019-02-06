@@ -1,0 +1,7 @@
+#!/bin/bash 
+
+# This script is written by Mehdi Zare and it converts CONTCAR that is in fractioanl coordinate to POSCAR with cartecian coordinates; it need header.POSCAR and CONTCAR as inputs
+vasp-convert-poscar-coordinates -f CONTCAR -m F2C -p > POSCAR
+sed -i '1,5d' POSCAR ; cat header.POSCAR POSCAR > ali ; mv ali POSCAR
+rm CONTCAR
+
