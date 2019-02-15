@@ -1,10 +1,19 @@
 #!/bin/bash  +x
 
-# This script is written by Mehdi Zare and it divide the History file which contains 10,000 water conformation
-# to 10 History file each contains 1000 conformations. All your HISTORY files are in Bin-01 to Bin-10 directory
-# In addition, this scripts creates a CONFIG file in each Bin directory which is the first conformation of each 
-# HISTORY file in that directory. You need to have head*.CONFIG file in the directory that your origiinal HISTORY
-# 10,000 exists.
+############################################################################################################################################################
+#                                                                                                                                                          #
+#                                                               Author: Mehdi Zare                                                                         #
+#                                                                                                                                                          #
+#               Purpose : It divides the History file which contains 10,000 (500 ps sampling) water conformations to 10 HISTORY                            #
+#                 files each contains 1000 conformations. All your HISTORY   						                                   #
+#                   files are in Bin-01 to Bin-10 directories. In addition, this script creates a CONFIG file in each Bin                                  #
+#                    directory which is the first conformation of each HISTORY file in that directory. You need to have                                    #
+#                       head*.CONFIG file in the directory that your original HISTORY (14,500 conformations) exists.                                       #
+#                                                                                                                                                          #
+############################################################################################################################################################
+
+
+
 
 lines=`wc -l HISTORY | awk '{print $1}'`     # Total number of HISTORY's lines
 conflines=$((($lines-2)/10))                 # Total number of each 1000-HISTORY lines without header(2 lines)

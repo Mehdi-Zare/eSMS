@@ -1,10 +1,17 @@
 #!/bin/bash  +x
 
-# This script is written by Mehdi Zare and it divides the History file which contains 10,000 (500 ps sampling) water conformation
-# to 5 History file each contains 2000 conformations.
-# All your HISTORY files are named HISTORY.1 to HISTORY.5
-# in addition, this code creates the HISTORY and CONFIG files of the first conformation for RefimgSdir
-# it needs HISTORY file and head*.CONFIG file in your working directory
+############################################################################################################################################################
+#                                                                                                                                                          #
+#                                                               Author: Mehdi Zare                                                                         #
+#                                                                                                                                                          #
+#               Purpose : It divides the History file which contains 10000 (500 ps sampling) water conformations to 5 HISTORY                              #
+#                 files each contains 2000 conformations.								                                   #
+#                    All your HISTORY files are named HISTORY.1 to HISTORY.5 in histories directory                           			           #
+#                     In addition, this code creates the HISTORY and CONFIG files of the first conformation for                                            #
+#                        RefimgSdir. It needs HISTORY file and head*.CONFIG file in your working directory                                                 #
+#                                                                                                                                                          #
+############################################################################################################################################################
+
 
 NumConf=`head -2 HISTORY | tail -1 | awk '{print $4}'`                   # Total number of conformations in HISTORY
 lines=`head -2 HISTORY | tail -1 | awk '{print $5}'`    		 # Total number of HISTORY's lines
