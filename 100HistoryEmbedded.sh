@@ -1,5 +1,18 @@
 #!/bin/bash -x
 
+############################################################################################################################################################
+#                                                                                                                                                          #
+#                                                               Author: Mehdi Zare                                                                         #
+#                                                                                                                                                          #
+#               Purpose : It gets first 100 water conformation of your HISTORY file and convert it to embedded file for PEECM   			   #
+#			  Calculations. It needs head.embedded, mid.embedded an ConfigTypeEmbeddedHead files in your current			 	   #
+#			  directory as well as HISTORY file in the above directory.									   #
+#		Note    : This scripts assume that the number of cluster atoms are 51. if you have different cluster size, 				   #
+#			  you need to modify this code				 						                           #
+#                                                                                                                                                          #
+############################################################################################################################################################
+
+
 NumConf=`head -2 ../HISTORY | tail -1 | awk '{print $4}'`                   # Total number of conformations in HISTORY
 lines=`head -2 ../HISTORY | tail -1 | awk '{print $5}'`                     # Total number of HISTORY's lines
 OneConf=$((($lines-2)/$NumConf))                                         # Number of line in one conformation without header
