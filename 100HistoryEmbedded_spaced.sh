@@ -1,5 +1,19 @@
 #!/bin/bash -x
 
+############################################################################################################################################################
+#                                                                                                                                                          #
+#                                                               Author: Mehdi Zare                                                                         #
+#                                                                                                                                                          #
+#               Purpose : It gets 100 water conformation of your HISTORY file equally speced and convert it to embedded file for PEECM                     #
+#                         Calculations. It needs head.embedded, mid.embedded an ConfigTypeEmbeddedHead files in your current                               #
+#                         directory as well as HISTORY file in the above directory. It used the fire 10,000 conformations of your			   #	
+#			  HISTORY file no matter you have 14500 of 10,000 HISTORY file.                                                                    #
+#               Note    : This scripts assume that the number of cluster atoms are 51. if you have different cluster size,                                 #
+#                         you need to modify this code                                                                                                     #
+#                                                                                                                                                          #
+############################################################################################################################################################
+
+
 
 NumConf=`head -2 ../HISTORY | tail -1 | awk '{print $4}'`                   # Total number of conformations in HISTORY
 lines=`head -2 ../HISTORY | tail -1 | awk '{print $5}'`                     # Total number of HISTORY's lines
