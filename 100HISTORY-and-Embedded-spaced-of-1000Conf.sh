@@ -82,5 +82,5 @@ sed -i "s/^H /Hx/g" embedded
 ## Clean up the mess, save diskspace, save yourself 
 ## from the wrath of TACC
 
-rm HISTORY HISTORY.finale tail.QM head.QM histone HISTORY.mix head.HISTORY
+rm HISTORY HISTORY.finale tail.QM head.QM histone HISTORY.mix head.HISTORY mehdi
 
