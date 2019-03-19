@@ -35,12 +35,12 @@ water=`grep -e 'Hw ' -e 'Ow '  histone  | wc -l`                          # Numb
 head -2 ../HISTORY > HISTORY
 j=1; for i in {1..100}; do k=$((2+($OneConf*$j)));head -n$k ../HISTORY | tail -n$OneConf >> HISTORY;echo $i; j=$(($j+10)); done
 
-head -2 ../HISTORY > head.HISTORY                                           # Get header to modify it for 100-HISTORY files
+head -2 HISTORY > head.HISTORY                                           # Get header to modify it for 100-HISTORY files
 sed -i "s/ 1000 / 100 /" head.HISTORY                                      # Modifying number of conformations in header
 sed -i "s/$lines/$headlines/" head.HISTORY                               # Modifying number of lines in header
 
-head -n$headlines ../HISTORY | tail -n$conflines > HISTORY
-cat head.HISTORY HISTORY > ali; mv ali HISTORY
+head -n$headlines HISTORY | tail -n$conflines > mehdi
+cat head.HISTORY mehdi > HISTORY
 
 # Keep 100HISTORY file in file named "HISTORY100"
 cp HISTORY HISTORY100
