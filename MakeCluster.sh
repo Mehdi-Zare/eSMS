@@ -28,13 +28,33 @@ echo $'\n' $metalID is $metalnum and $ads1ID is $ads1num and $ads2ID is $ads2num
 Adsorbnum=$(($ads1num+$ads2num+ads3num))
 
 ###First Part-Creating an expanded surface###
+# Get the supercell size that you want
+echo  $'\n' please enter multipliciy in X and Y direction that you are interested in, they must be integer numbers $'\n'
+#####################################  FLAG ######################################
+echo  $'\n' do you have these numbers, yes or no $'\n'
+read answer
+if [ "$answer" = "yes" ]
+  then
+      echo $'\n' alright, Lets continue $'\n' pelase enter X and Y in order $'\n'
+elif [ "$answer" = "no" ]
+  then
+     echo $'\n' See you later, the program is going to exit! $'\n'
+     exit 1
+  else
+     echo $'\n' please insert the correct word $'\n'
+      exit 1
+ fi
+##################################  END OF FLAG ####################################
+read xvalue
+read yvalue
 
-vasp-build-supercell-from-poscar -f CONTCAR -o XYZ -X 4 -Y 5 > expanded.xyz
+
+vasp-build-supercell-from-poscar -f CONTCAR -o XYZ -X $xvalue -Y $yvalue > expanded.xyz
 
 # remove header
 head -2 expanded.xyz > first-header
-totatom=`head -1 expanded.xyz`   # total atoms in your 5x5 supercell 
-totmetals=$((4*5*$metalnum))
+totatom=`head -1 expanded.xyz`   # total atoms in your supercell 
+totmetals=$(($xvalue*$yvalue*$metalnum))
 sed '1,2 d' expanded.xyz > No-header    # remove header of the xyz file
 
 
@@ -77,13 +97,16 @@ varH=$ads3num       # number of Hydrogen atoms of the adsorbate
 
 cellnum=0
 j=-1
-while [ "$cellnum" -le "19"  ]                            # for cell #1 to cell #9 and cell number 11 to 20
+trashcells=$((($xvalue*$yvalue)-1))
+R=$((($xvalue*$yvalue)%2))                                # Check if the number of unitcells is an odd or even number
+if [ "$R" -eq  0  ]; then theone=$((($xvalue*$yvalue)/2)); elif [ "$R" -ne  0  ]; then theone=$(((($xvalue*$yvalue)/2)+1)); fi    	# the middle cell number that we are interested in
+while [ "$cellnum" -le "$trashcells"  ]                    # for cell #1 to cell #4 and cell number 6 to 9
    do cellnum=$(($cellnum+1))                             # the first cell is cell #1
       j=$(($j+1))                                         # the first index is zero
-      if [ "$cellnum" -eq 10 ]; then continue; fi             # in order to skip cell #10
-      Cidfirst=$((1280+($j*$varC)+1)); Cidlast=$(($Cidfirst+$varC-1))                           # carbon atoms id starts from after all Pt atoms (64x20)=1280
-      Oidfirst=$((1280+(20*$varC)+($j*$varO)+1)); Oidlast=$(($Oidfirst+$varO-1))                # oxygen atoms id starts from after all Pt atoms (64x20)=1280 and all carbon atoms (20x2)
-      Hidfirst=$((1280+(20*$varC)+(20*$varO)+($j*$varH)+1)); Hidlast=$(($Hidfirst+$varH-1)) # hydroge  atoms id starts from after all Pt atoms (64x20)=1280 and all carbon atoms (20x2) and all Oxygen(20x2)  
+      if [ "$cellnum" -eq "$theone" ]; then continue; fi             # in order to skip cell #5, the cell that we are interested in
+      Cidfirst=$(($totmetals+($j*$varC)+1)); Cidlast=$(($Cidfirst+$varC-1))                           # carbon atoms id starts from after all Pt atoms (64x9)=576
+      Oidfirst=$(($totmetals+($xvalue*$yvalue*$varC)+($j*$varO)+1)); Oidlast=$(($Oidfirst+$varO-1))                # oxygen atoms id starts from after all Pt atoms (64x9)=576 and all carbon atoms (9x2)
+      Hidfirst=$(($totmetals+($xvalue*$yvalue*$varC)+($xvalue*$yvalue*$varO)+($j*$varH)+1)); Hidlast=$(($Hidfirst+$varH-1)) # hydroge  atoms id starts from after all Pt atoms (64x9)=1280 and all carbon atoms (9x2) and all Oxygen(9x2)  
      echo cellnumber is $cellnum , Cidfirst is $Cidfirst and Cidlast is $Cidlast
      echo cellnumber is $cellnum , Oidfirst is $Oidfirst and Oidlast is $Oidlast
      echo cellnumber is $cellnum , Hidfirst is $Hidfirst and Hidlast is $Hidlast
@@ -297,3 +320,5 @@ Reallines=$((51+$Adsorbnum)); Now=`wc -l cluster.xyz | awk '{ print $1  }'`
 if [ "$Reallines" -ne "$Now"  ]; then echo $'\n' The number of lines in file cluster.xyz must be $Reallines but I found it $Now $'\n'; exit 1; fi
 
 sed -i  "1 i cluster"  cluster.xyz;sed -i  "1 i $Now"  cluster.xyz;
+
+rm first-header metals No-header
