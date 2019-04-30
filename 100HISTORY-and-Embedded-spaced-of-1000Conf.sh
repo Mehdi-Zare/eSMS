@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash 
 
 ############################################################################################################################################################
 #                                                                                                                                                          #
@@ -33,7 +33,7 @@ cluster=$(($metalQM+$adsorb))                                            # Numbe
 water=`grep -e 'Hw ' -e 'Ow '  histone  | wc -l`                          # Number of water atoms in one conformatinos
 
 head -2 ../HISTORY > HISTORY
-j=1; for i in {1..100}; do k=$((2+($OneConf*$j)));head -n$k ../HISTORY | tail -n$OneConf >> HISTORY;echo $i; j=$(($j+10)); done
+j=1; for i in {1..100}; do k=$((2+($OneConf*$j)));head -n$k ../HISTORY | tail -n$OneConf >> HISTORY; j=$(($j+10)); done
 
 head -2 HISTORY > head.HISTORY                                           # Get header to modify it for 100-HISTORY files
 sed -i "s/ 1000 / 100 /" head.HISTORY                                      # Modifying number of conformations in header
