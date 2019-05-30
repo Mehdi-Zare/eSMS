@@ -1,4 +1,12 @@
 program distribution
+
+!**************************************************************************************************!
+!               Author          :       Mehdi Zare                                                 !
+!               date            :       02/01/2019                                                 !
+!               Purpose         :       Height distribution of Water molecules from the metal      !
+!                                       Surface                                                    !
+!               Modification    :                                                                  !
+!**************************************************************************************************!
 implicit none
 
 integer  ,  parameter                   ::      dp = selected_real_kind(15, 307)
